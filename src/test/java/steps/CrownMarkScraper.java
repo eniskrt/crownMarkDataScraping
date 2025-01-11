@@ -52,8 +52,15 @@ public class CrownMarkScraper extends TestBase {
     }
 
     @Test
-    public void dining() {
+    public void dining() throws InterruptedException {
         Actions actions = new Actions(driver);
+
+        WebElement diningCategoryTab = driver.findElement(By.xpath("(//div[@class='TitleAreaLink'])[2]"));
+        actions.moveToElement(diningCategoryTab).perform();
+        Thread.sleep(1000);
+
+        WebElement allDiningLink = driver.findElement(By.xpath("(//div[@id='DiningRooms-Submenu']//div[@class='SubmenuLink'])[4]/a"));
+        allDiningLink.click();
     }
 
     @Test
