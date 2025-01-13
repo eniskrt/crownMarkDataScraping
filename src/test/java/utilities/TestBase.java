@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
 
@@ -17,10 +18,19 @@ public class TestBase {
 
     @Before
     public void setup() {
-        WebDriverManager.chromedriver().setup();
+        /*WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(11));*/
+
+        // ChromeOptions ile tarayıcı ayarları
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new"); // Yeni headless modu (daha stabil)
+        options.addArguments("--disable-popup-blocking"); // Pop-up engelleme devre dışı
+        options.addArguments("--remote-allow-origins=*"); // Çapraz köken hatalarını önler
+
+        driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(11));
 
         driver.get(ConfigReader.getProperty("loginUrl"));
 

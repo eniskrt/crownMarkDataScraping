@@ -42,6 +42,36 @@ public class CrownMarkScraper extends TestBase {
                 product = productList.get(i - 1);
                 product.click();
                 Thread.sleep(1000);
+
+                String productSKUNo;
+                String productDescription;
+                String productStockLevel;
+                String productBasePrice;
+                String productSpecialPrice;
+                String productSpecialStatus;
+
+                List<WebElement> tableRowCountList = driver.findElements(By.xpath("//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr"));
+                int tableRowCount = tableRowCountList.size();
+
+                for (int j = 2; j < tableRowCount; j+=2) {
+                    String cellListXPath = "(//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr)[" + j + "]//td";
+                    List<WebElement> cellList = driver.findElements(By.xpath(cellListXPath));
+                    if (cellList.get(1).getText().equals("Total CFT")){
+                        break;
+                    }
+                    try {
+                        productSKUNo = cellList.get(0).getText();
+                        productDescription = cellList.get(1).getText();
+                        productStockLevel = cellList.get(2).getText();
+                        productBasePrice = cellList.get(3).getText();
+                        productSpecialPrice = cellList.get(4).getText().isBlank() ? "-" : cellList.get(4).getText();
+                        productSpecialStatus = cellList.get(5).getText().isBlank() ? "-" : cellList.get(5).getText();
+                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus};
+                        allProductsInformation.add(productInfo);
+                    } catch (Exception e) {
+                        System.out.println("Trivial information dosen't included.");
+                    }
+                }
                 driver.navigate().back();
             }
 
@@ -79,6 +109,36 @@ public class CrownMarkScraper extends TestBase {
                 product = productList.get(i - 1);
                 product.click();
                 Thread.sleep(1000);
+
+                String productSKUNo;
+                String productDescription;
+                String productStockLevel;
+                String productBasePrice;
+                String productSpecialPrice;
+                String productSpecialStatus;
+
+                List<WebElement> tableRowCountList = driver.findElements(By.xpath("//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr"));
+                int tableRowCount = tableRowCountList.size();
+
+                for (int j = 2; j < tableRowCount; j+=2) {
+                    String cellListXPath = "(//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr)[" + j + "]//td";
+                    List<WebElement> cellList = driver.findElements(By.xpath(cellListXPath));
+                    if (cellList.get(1).getText().equals("Total CFT")){
+                        break;
+                    }
+                    try {
+                        productSKUNo = cellList.get(0).getText();
+                        productDescription = cellList.get(1).getText();
+                        productStockLevel = cellList.get(2).getText();
+                        productBasePrice = cellList.get(3).getText();
+                        productSpecialPrice = cellList.get(4).getText().isBlank() ? "-" : cellList.get(4).getText();
+                        productSpecialStatus = cellList.get(5).getText().isBlank() ? "-" : cellList.get(5).getText();
+                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus};
+                        allProductsInformation.add(productInfo);
+                    } catch (Exception e) {
+                        System.out.println("Trivial information dosen't included.");
+                    }
+                }
                 driver.navigate().back();
             }
 
@@ -116,6 +176,36 @@ public class CrownMarkScraper extends TestBase {
                 product = productList.get(i - 1);
                 product.click();
                 Thread.sleep(1000);
+
+                String productSKUNo;
+                String productDescription;
+                String productStockLevel;
+                String productBasePrice;
+                String productSpecialPrice;
+                String productSpecialStatus;
+
+                List<WebElement> tableRowCountList = driver.findElements(By.xpath("//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr"));
+                int tableRowCount = tableRowCountList.size();
+
+                for (int j = 2; j < tableRowCount; j+=2) {
+                    String cellListXPath = "(//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr)[" + j + "]//td";
+                    List<WebElement> cellList = driver.findElements(By.xpath(cellListXPath));
+                    if (cellList.get(1).getText().equals("Total CFT")){
+                        break;
+                    }
+                    try {
+                        productSKUNo = cellList.get(0).getText();
+                        productDescription = cellList.get(1).getText();
+                        productStockLevel = cellList.get(2).getText();
+                        productBasePrice = cellList.get(3).getText();
+                        productSpecialPrice = cellList.get(4).getText().isBlank() ? "-" : cellList.get(4).getText();
+                        productSpecialStatus = cellList.get(5).getText().isBlank() ? "-" : cellList.get(5).getText();
+                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus};
+                        allProductsInformation.add(productInfo);
+                    } catch (Exception e) {
+                        System.out.println("Trivial information dosen't included.");
+                    }
+                }
                 driver.navigate().back();
             }
 
@@ -167,6 +257,36 @@ public class CrownMarkScraper extends TestBase {
                 product = productList.get(i - 1);
                 product.click();
                 Thread.sleep(1000);
+
+                String productSKUNo;
+                String productDescription;
+                String productStockLevel;
+                String productBasePrice;
+                String productSpecialPrice;
+                String productSpecialStatus;
+
+                List<WebElement> tableRowCountList = driver.findElements(By.xpath("//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr"));
+                int tableRowCount = tableRowCountList.size();
+
+                for (int j = 2; j < tableRowCount; j+=2) {
+                    String cellListXPath = "(//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr)[" + j + "]//td";
+                    List<WebElement> cellList = driver.findElements(By.xpath(cellListXPath));
+                    if (cellList.get(1).getText().equals("Total CFT")){
+                        break;
+                    }
+                    try {
+                        productSKUNo = cellList.get(0).getText();
+                        productDescription = cellList.get(1).getText();
+                        productStockLevel = cellList.get(2).getText();
+                        productBasePrice = cellList.get(3).getText();
+                        productSpecialPrice = cellList.get(4).getText().isBlank() ? "-" : cellList.get(4).getText();
+                        productSpecialStatus = cellList.get(5).getText().isBlank() ? "-" : cellList.get(5).getText();
+                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus};
+                        allProductsInformation.add(productInfo);
+                    } catch (Exception e) {
+                        System.out.println("Trivial information dosen't included.");
+                    }
+                }
                 driver.navigate().back();
             }
 
@@ -223,9 +343,9 @@ public class CrownMarkScraper extends TestBase {
 
         // Excel dosyasını kaydet
         String currentDate = new SimpleDateFormat("ddMMyyyy").format(new Date());
-        LocalTime localTime = LocalTime.now();
-        //String currentHour = localTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-        String fileName = "CrownMarkPriceList_" + currentDate + ".xlsx";
+        String currentTime = new SimpleDateFormat("HHmm").format(new Date()); // Saati HHmm formatında al
+        String fileName = "CrownMarkPriceList_" + currentDate + "_" + currentTime + ".xlsx";
+
         try (FileOutputStream outputStream = new FileOutputStream(fileName)) {
             workbook.write(outputStream);
         }
