@@ -29,16 +29,16 @@ public class CrownMarkScraper extends TestBase {
         WebElement bedroomCategoryTab = driver.findElement(By.xpath("(//div[@class='TitleAreaLink'])[1]"));
         bedroomCategoryTab.click();
 
-        //Pagination Information
+        // Pagination Information
         String lastPageCountAsString = driver.findElement(By.xpath("//*[@id='CatalogContentArea']/table/tbody/tr[2]/td/b/a[6]/u")).getText();
         int pageSize = Integer.parseInt(lastPageCountAsString);
 
-        for (int k = 1; k <= pageSize; k++){
+        for (int k = 1; k <= pageSize; k++) {
 
             List<WebElement> productList = driver.findElements(By.xpath("//div[@id='CatalogContentArea']/table/tbody/tr/td/a/img"));
 
             WebElement product;
-            for (int i = 1; i <= productList.size(); i++){
+            for (int i = 1; i <= productList.size(); i++) {
                 product = productList.get(i - 1);
                 product.click();
                 Thread.sleep(1000);
@@ -49,14 +49,15 @@ public class CrownMarkScraper extends TestBase {
                 String productBasePrice;
                 String productSpecialPrice;
                 String productSpecialStatus;
+                String productDimension = "";
 
                 List<WebElement> tableRowCountList = driver.findElements(By.xpath("//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr"));
                 int tableRowCount = tableRowCountList.size();
 
-                for (int j = 2; j < tableRowCount; j+=2) {
+                for (int j = 2; j < tableRowCount; j += 2) {
                     String cellListXPath = "(//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr)[" + j + "]//td";
                     List<WebElement> cellList = driver.findElements(By.xpath(cellListXPath));
-                    if (cellList.get(1).getText().equals("Total CFT")){
+                    if (cellList.get(1).getText().equals("Total CFT")) {
                         break;
                     }
                     try {
@@ -66,16 +67,34 @@ public class CrownMarkScraper extends TestBase {
                         productBasePrice = cellList.get(3).getText();
                         productSpecialPrice = cellList.get(4).getText().isBlank() ? "-" : cellList.get(4).getText();
                         productSpecialStatus = cellList.get(5).getText().isBlank() ? "-" : cellList.get(5).getText();
-                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus};
+                        productDimension = ""; // Şimdilik boş, birazdan doldurulacak
+
+                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus, productDimension};
                         allProductsInformation.add(productInfo);
                     } catch (Exception e) {
                         System.out.println("Trivial information dosen't included.");
                     }
                 }
+
+                // DİMENSİON BİLGİLERİNİ AL
+                List<WebElement> dimensionTableRows = driver.findElements(By.xpath("//table[.//b[contains(text(),'Item')]]/tbody/tr"));
+                for (int m = 0; m < dimensionTableRows.size(); m++) {
+                    try {
+                        WebElement dimensionCell = dimensionTableRows.get(m).findElements(By.tagName("td")).get(2);
+                        String dimensionText = dimensionCell.getText();
+                        if (!allProductsInformation.isEmpty()) {
+                            // Sondan eklenen son ürünün dimension değerini güncelle
+                            allProductsInformation.get(allProductsInformation.size() - dimensionTableRows.size() + m - 1)[6] = dimensionText;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Dimension parsing failed at index: " + m);
+                    }
+                }
+
                 driver.navigate().back();
             }
 
-            if (k == pageSize){
+            if (k == pageSize) {
                 break;
             }
 
@@ -86,7 +105,6 @@ public class CrownMarkScraper extends TestBase {
                 actions.click(nextPageBtn).perform();
             }
             Thread.sleep(1000); // Sayfanın yüklenmesi için bekleme süresi
-
         }
     }
 
@@ -100,12 +118,12 @@ public class CrownMarkScraper extends TestBase {
         String lastPageCountAsString = driver.findElement(By.xpath("//*[@id='CatalogContentArea']/table/tbody/tr[2]/td/b/a[6]/u")).getText();
         int pageSize = Integer.parseInt(lastPageCountAsString);
 
-        for (int k = 1; k <= pageSize; k++){
+        for (int k = 1; k <= pageSize; k++) {
 
             List<WebElement> productList = driver.findElements(By.xpath("//div[@id='CatalogContentArea']/table/tbody/tr/td/a/img"));
 
             WebElement product;
-            for (int i = 1; i <= productList.size(); i++){
+            for (int i = 1; i <= productList.size(); i++) {
                 product = productList.get(i - 1);
                 product.click();
                 Thread.sleep(1000);
@@ -116,14 +134,15 @@ public class CrownMarkScraper extends TestBase {
                 String productBasePrice;
                 String productSpecialPrice;
                 String productSpecialStatus;
+                String productDimension = "";
 
                 List<WebElement> tableRowCountList = driver.findElements(By.xpath("//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr"));
                 int tableRowCount = tableRowCountList.size();
 
-                for (int j = 2; j < tableRowCount; j+=2) {
+                for (int j = 2; j < tableRowCount; j += 2) {
                     String cellListXPath = "(//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr)[" + j + "]//td";
                     List<WebElement> cellList = driver.findElements(By.xpath(cellListXPath));
-                    if (cellList.get(1).getText().equals("Total CFT")){
+                    if (cellList.get(1).getText().equals("Total CFT")) {
                         break;
                     }
                     try {
@@ -133,16 +152,34 @@ public class CrownMarkScraper extends TestBase {
                         productBasePrice = cellList.get(3).getText();
                         productSpecialPrice = cellList.get(4).getText().isBlank() ? "-" : cellList.get(4).getText();
                         productSpecialStatus = cellList.get(5).getText().isBlank() ? "-" : cellList.get(5).getText();
-                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus};
+                        productDimension = ""; // Şimdilik boş, birazdan doldurulacak
+
+                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus, productDimension};
                         allProductsInformation.add(productInfo);
                     } catch (Exception e) {
                         System.out.println("Trivial information dosen't included.");
                     }
                 }
+
+                // DİMENSİON BİLGİLERİNİ AL
+                List<WebElement> dimensionTableRows = driver.findElements(By.xpath("//table[.//b[contains(text(),'Item')]]/tbody/tr"));
+                for (int m = 0; m < dimensionTableRows.size(); m++) {
+                    try {
+                        WebElement dimensionCell = dimensionTableRows.get(m).findElements(By.tagName("td")).get(2);
+                        String dimensionText = dimensionCell.getText();
+                        if (!allProductsInformation.isEmpty()) {
+                            // Sondan eklenen son ürünün dimension değerini güncelle
+                            allProductsInformation.get(allProductsInformation.size() - dimensionTableRows.size() + m - 1)[6] = dimensionText;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Dimension parsing failed at index: " + m);
+                    }
+                }
+
                 driver.navigate().back();
             }
 
-            if (k == pageSize){
+            if (k == pageSize) {
                 break;
             }
 
@@ -153,7 +190,6 @@ public class CrownMarkScraper extends TestBase {
                 actions.click(nextPageBtn).perform();
             }
             Thread.sleep(1000); // Sayfanın yüklenmesi için bekleme süresi
-
         }
     }
 
@@ -167,12 +203,12 @@ public class CrownMarkScraper extends TestBase {
         String lastPageCountAsString = driver.findElement(By.xpath("//*[@id='CatalogContentArea']/table[2]/tbody/tr[2]/td/b/a[5]/u")).getText();
         int pageSize = Integer.parseInt(lastPageCountAsString);
 
-        for (int k = 1; k <= pageSize; k++){
+        for (int k = 1; k <= pageSize; k++) {
 
             List<WebElement> productList = driver.findElements(By.xpath("//div[@id='CatalogContentArea']/table/tbody/tr/td/a/img"));
 
             WebElement product;
-            for (int i = 1; i <= productList.size(); i++){
+            for (int i = 1; i <= productList.size(); i++) {
                 product = productList.get(i - 1);
                 product.click();
                 Thread.sleep(1000);
@@ -183,14 +219,15 @@ public class CrownMarkScraper extends TestBase {
                 String productBasePrice;
                 String productSpecialPrice;
                 String productSpecialStatus;
+                String productDimension = "";
 
                 List<WebElement> tableRowCountList = driver.findElements(By.xpath("//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr"));
                 int tableRowCount = tableRowCountList.size();
 
-                for (int j = 2; j < tableRowCount; j+=2) {
+                for (int j = 2; j < tableRowCount; j += 2) {
                     String cellListXPath = "(//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr)[" + j + "]//td";
                     List<WebElement> cellList = driver.findElements(By.xpath(cellListXPath));
-                    if (cellList.get(1).getText().equals("Total CFT")){
+                    if (cellList.get(1).getText().equals("Total CFT")) {
                         break;
                     }
                     try {
@@ -200,16 +237,34 @@ public class CrownMarkScraper extends TestBase {
                         productBasePrice = cellList.get(3).getText();
                         productSpecialPrice = cellList.get(4).getText().isBlank() ? "-" : cellList.get(4).getText();
                         productSpecialStatus = cellList.get(5).getText().isBlank() ? "-" : cellList.get(5).getText();
-                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus};
+                        productDimension = ""; // Şimdilik boş, birazdan doldurulacak
+
+                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus, productDimension};
                         allProductsInformation.add(productInfo);
                     } catch (Exception e) {
                         System.out.println("Trivial information dosen't included.");
                     }
                 }
+
+                // DİMENSİON BİLGİLERİNİ AL
+                List<WebElement> dimensionTableRows = driver.findElements(By.xpath("//table[.//b[contains(text(),'Item')]]/tbody/tr"));
+                for (int m = 0; m < dimensionTableRows.size(); m++) {
+                    try {
+                        WebElement dimensionCell = dimensionTableRows.get(m).findElements(By.tagName("td")).get(2);
+                        String dimensionText = dimensionCell.getText();
+                        if (!allProductsInformation.isEmpty()) {
+                            // Sondan eklenen son ürünün dimension değerini güncelle
+                            allProductsInformation.get(allProductsInformation.size() - dimensionTableRows.size() + m - 1)[6] = dimensionText;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Dimension parsing failed at index: " + m);
+                    }
+                }
+
                 driver.navigate().back();
             }
 
-            if (k == pageSize){
+            if (k == pageSize) {
                 break;
             }
 
@@ -220,7 +275,6 @@ public class CrownMarkScraper extends TestBase {
                 actions.click(nextPageBtn).perform();
             }
             Thread.sleep(1000); // Sayfanın yüklenmesi için bekleme süresi
-
         }
     }
 
@@ -248,12 +302,12 @@ public class CrownMarkScraper extends TestBase {
         String lastPageCountAsString = driver.findElement(By.xpath("//*[@id='CatalogContentArea']/table[2]/tbody/tr[2]/td/b/a[4]/u")).getText();
         int pageSize = Integer.parseInt(lastPageCountAsString);
 
-        for (int k = 1; k <= pageSize; k++){
+        for (int k = 1; k <= pageSize; k++) {
 
             List<WebElement> productList = driver.findElements(By.xpath("//div[@id='CatalogContentArea']/table/tbody/tr/td/a/img"));
 
             WebElement product;
-            for (int i = 1; i <= productList.size(); i++){
+            for (int i = 1; i <= productList.size(); i++) {
                 product = productList.get(i - 1);
                 product.click();
                 Thread.sleep(1000);
@@ -264,14 +318,15 @@ public class CrownMarkScraper extends TestBase {
                 String productBasePrice;
                 String productSpecialPrice;
                 String productSpecialStatus;
+                String productDimension = "";
 
                 List<WebElement> tableRowCountList = driver.findElements(By.xpath("//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr"));
                 int tableRowCount = tableRowCountList.size();
 
-                for (int j = 2; j < tableRowCount; j+=2) {
+                for (int j = 2; j < tableRowCount; j += 2) {
                     String cellListXPath = "(//span[@style='font-face:Park Avenue BT;font-size:11px']//table//tbody//tr)[" + j + "]//td";
                     List<WebElement> cellList = driver.findElements(By.xpath(cellListXPath));
-                    if (cellList.get(1).getText().equals("Total CFT")){
+                    if (cellList.get(1).getText().equals("Total CFT")) {
                         break;
                     }
                     try {
@@ -281,16 +336,34 @@ public class CrownMarkScraper extends TestBase {
                         productBasePrice = cellList.get(3).getText();
                         productSpecialPrice = cellList.get(4).getText().isBlank() ? "-" : cellList.get(4).getText();
                         productSpecialStatus = cellList.get(5).getText().isBlank() ? "-" : cellList.get(5).getText();
-                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus};
+                        productDimension = ""; // Şimdilik boş, birazdan doldurulacak
+
+                        String[] productInfo = {productSKUNo, productDescription, productStockLevel, productBasePrice, productSpecialPrice, productSpecialStatus, productDimension};
                         allProductsInformation.add(productInfo);
                     } catch (Exception e) {
                         System.out.println("Trivial information dosen't included.");
                     }
                 }
+
+                // DİMENSİON BİLGİLERİNİ AL
+                List<WebElement> dimensionTableRows = driver.findElements(By.xpath("//table[.//b[contains(text(),'Item')]]/tbody/tr"));
+                for (int m = 0; m < dimensionTableRows.size(); m++) {
+                    try {
+                        WebElement dimensionCell = dimensionTableRows.get(m).findElements(By.tagName("td")).get(2);
+                        String dimensionText = dimensionCell.getText();
+                        if (!allProductsInformation.isEmpty()) {
+                            // Sondan eklenen son ürünün dimension değerini güncelle
+                            allProductsInformation.get(allProductsInformation.size() - dimensionTableRows.size() + m - 1)[6] = dimensionText;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Dimension parsing failed at index: " + m);
+                    }
+                }
+
                 driver.navigate().back();
             }
 
-            if (k == pageSize){
+            if (k == pageSize) {
                 break;
             }
 
@@ -301,7 +374,6 @@ public class CrownMarkScraper extends TestBase {
                 actions.click(nextPageBtn).perform();
             }
             Thread.sleep(1000); // Sayfanın yüklenmesi için bekleme süresi
-
         }
     }
 
@@ -319,7 +391,7 @@ public class CrownMarkScraper extends TestBase {
         headerStyle.setFont(headerFont);
 
         // Başlıklar
-        String[] headers = {"SKU NUMBER", "DESCRIPTION", "STOCK LEVEL", "BASE PRICE", "SPECIAL PRICE", "STATUS"};
+        String[] headers = {"SKU NUMBER", "DESCRIPTION", "STOCK LEVEL", "BASE PRICE", "SPECIAL PRICE", "STATUS", "DIMENSION"};
         Row headerRow = sheet.createRow(0);
         for (int i = 0; i < headers.length; i++) {
             Cell headerCell = headerRow.createCell(i);
